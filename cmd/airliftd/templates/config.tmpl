@@ -49,6 +49,10 @@
           <input type="text" id="twitter-handle" name="twitter-handle" value="{{ .Conf.TwitterHandle }}" required placeholder="@handle"{{ if not .Conf.TwitterCardEnable }} disabled{{ end }}>
         </div>
       </div>
+      <div class="box" id="telegram-box">
+        <label for="telegram">Telegram chatId</label>
+        <input type="text" id="telegram" name="telegram" value="{{ .Conf.Telegram }}">
+      </div>
       <div class="box" id="directory-box">
         <label for="directory">Upload Directory</label>
         <input type="text" id="directory" name="directory" value="{{ .Conf.Directory }}" placeholder="/home/user/uploads">

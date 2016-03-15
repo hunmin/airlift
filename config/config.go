@@ -49,6 +49,7 @@ type Config struct {
 	AppendExt         bool   `form:"append-ext"`   // append extensions to returned file URLs
 	TwitterCardEnable bool   `form:"twitter-card"` // enable Twitter Card preview for embeddable files
 	TwitterHandle     string `form:"twitter-handle"`
+	Telegram          string `form:"telegram"`
 }
 
 // Secrets satisfies gas.User interface.
