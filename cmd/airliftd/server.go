@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"errors"
 	"flag"
 	"fmt"
@@ -17,7 +18,6 @@ import (
 	"strings"
 	"syscall"
 	"time"
-	"crypto/tls"
 
 	"golang.org/x/image/draw"
 
@@ -428,8 +428,8 @@ func postFile(g *gas.Gas) (int, gas.Outputter) {
 	}
 
 	if conf.Telegram != "" {
-		go notify(conf.Telegram, filename + " 이 업로드 되었습니다.\nhttp://" + path.Join(host, hash))
-	} 
+		go notify(conf.Telegram, filename+" 이 업로드 되었습니다.\\nhttp://"+path.Join(host, hash))
+	}
 	return 201, out.JSON(&Resp{URL: path.Join(host, hash)})
 }
 
@@ -441,7 +441,6 @@ func deleteFile(g *gas.Gas) (int, gas.Outputter) {
 		return 400, out.JSON(&Resp{Err: "file ID not specified"})
 	}
 
-
 	fi := fileCache.Stat(id)
 	filename := strings.SplitN(fi.Name(), ".", 2)[1]
 
@@ -449,11 +448,11 @@ func deleteFile(g *gas.Gas) (int, gas.Outputter) {
 		log.Println(g.Request.Method, "deleteFile:", err)
 		return 500, out.JSON(&Resp{Err: err.Error()})
 	}
-	
+
 	if conf.Telegram != "" {
 
-		go notify(conf.Telegram, filename + " 이 삭제 되었습니다.")
-	} 
+		go notify(conf.Telegram, filename+" 이 삭제 되었습니다.")
+	}
 
 	return 204, nil
 }
@@ -612,10 +611,10 @@ func getIndex(g *gas.Gas) (int, gas.Outputter) {
 }
 
 func notify(chatId, msg string) {
-  tr := &http.Transport{
-    TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-  }
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
 
-  client := &http.Client{Transport: tr, Timeout:time.Duration(2 * time.Second)}
-  client.PostForm("https://telegram.streampi.pe/notify_bot/notify", url.Values{"chatId": {chatId}, "msg": {msg}})
+	client := &http.Client{Transport: tr, Timeout: time.Duration(2 * time.Second)}
+	client.PostForm("https://gdib8v1dw9.execute-api.ap-northeast-1.amazonaws.com/prod/notify", url.Values{"chatId": {chatId}, "msg": {msg}})
 }
